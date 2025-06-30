@@ -1,4 +1,3 @@
-import sys
 import tkinter as tk
 from typing import Callable, Any
 from PIL import Image, ImageTk, ImageOps
