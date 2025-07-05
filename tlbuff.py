@@ -1,6 +1,8 @@
+import configparser
+
 from overlay import Overlay
 from screenshot import Screenshot
-import configparser
+
 
 def main() -> None:
 

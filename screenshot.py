@@ -1,7 +1,9 @@
-from PIL import Image, ImageGrab
+import os
+
 import cv2
 import numpy
-import os
+from PIL import Image, ImageGrab
+
 
 class Screenshot:
     def __init__(self,
@@ -12,7 +14,7 @@ class Screenshot:
         self.bbox = bbox
         self.threshold = threshold
         self.buffs = {}
-   
+
         for buff in icons_name:
             images = []
             for filename in os.listdir(f'data/detection/{buff}/{hud_size}/'):
@@ -28,18 +30,18 @@ class Screenshot:
         pil_data = screen_image.convert('L')
         screen_image = numpy.array(pil_data)
 
-        detectedBuffs = {}
+        detected_buffs = {}
         # Iterate over Buffs to detect
         for buff, images in self.buffs.items():
-            detectedBuffs[buff] = False
+            detected_buffs[buff] = False
             for image in images:
                 np_image = numpy.array(image)
                 result = self.is_template_in_image(np_image, screen_image)
                 if result:
-                    detectedBuffs[buff] = True
+                    detected_buffs[buff] = True
                     break
 
-        return detectedBuffs
+        return detected_buffs
 
     def is_template_in_image(self, buff, global_image) -> bool:
         """

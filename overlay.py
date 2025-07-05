@@ -1,7 +1,9 @@
 import tkinter as tk
-from typing import Callable, Any
-from PIL import Image, ImageTk, ImageOps
 from collections import OrderedDict
+from typing import Callable
+
+from PIL import Image, ImageTk, ImageOps
+
 
 class Overlay:
     """
@@ -52,21 +54,21 @@ class Overlay:
         base = Image.open(f'data/render/{icon_name}.webp').resize((icon_size, icon_size))
         red = ImageOps.colorize(base.convert('L'), black='black', white='red')
         img = ImageTk.PhotoImage(base)
-        imgRed = ImageTk.PhotoImage(red)
-        self.images[icon_name] = [img, imgRed]
+        img_red = ImageTk.PhotoImage(red)
+        self.images[icon_name] = [img, img_red]
         label = tk.Label(self.root, text=icon_name, image=img, borderwidth=0, highlightthickness=0)
         x, y = box
         label.grid(row=y, column=x)
         self.labels[icon_name] = label
 
     def update(self) -> None:
-        detectedBuffs = self.get_buffs_status()
-        for buffName, detected in detectedBuffs.items():
-            self.update_img(detected=detected, buff_name=buffName)
+        detected_buffs = self.get_buffs_status()
+        for buff_name, detected in detected_buffs.items():
+            self.update_img(detected=detected, buff_name=buff_name)
 
-        detectedDebuffs = self.get_debuffs_status()
-        for debuffName, detected in detectedDebuffs.items():
-            self.update_img(detected=detected, buff_name=debuffName)
+        detected_debuffs = self.get_debuffs_status()
+        for debuff_name, detected in detected_debuffs.items():
+            self.update_img(detected=detected, buff_name=debuff_name)
 
         self.root.after(self.refresh_rate, self.update)
 
