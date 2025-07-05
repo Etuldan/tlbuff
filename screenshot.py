@@ -4,10 +4,10 @@ import numpy
 import os
 
 class Screenshot:
-    def __init__(self, 
+    def __init__(self,
                  bbox: tuple[int, int, int, int],
-                 HUD_size: int,
-                 threshold: int,
+                 hud_size: int,
+                 threshold: float,
                  icons_name: list[str]):
         self.bbox = bbox
         self.threshold = threshold
@@ -15,8 +15,8 @@ class Screenshot:
    
         for buff in icons_name:
             images = []
-            for filename in os.listdir(f'data/detection/{buff}/{HUD_size}/'):
-                images.append(Image.open(f'data/detection/{buff}/{HUD_size}/{filename}').convert('L'))
+            for filename in os.listdir(f'data/detection/{buff}/{hud_size}/'):
+                images.append(Image.open(f'data/detection/{buff}/{hud_size}/{filename}').convert('L'))
             self.buffs[buff] = images
 
     def refresh(self):
@@ -35,7 +35,7 @@ class Screenshot:
             for image in images:
                 np_image = numpy.array(image)
                 result = self.is_template_in_image(np_image, screen_image)
-                if result == True:
+                if result:
                     detectedBuffs[buff] = True
                     break
 
@@ -46,5 +46,5 @@ class Screenshot:
         Detect if buff is in global_image
         """
         result = cv2.matchTemplate(global_image, buff, cv2.TM_SQDIFF)
-        (yCoords, xCoords) = numpy.where(result <= self.threshold)
-        return yCoords.size > 0
+        (y, _) = numpy.where(result <= self.threshold)
+        return y.size > 0

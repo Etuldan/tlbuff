@@ -2,21 +2,21 @@ from overlay import Overlay
 from screenshot import Screenshot
 import configparser
 
-def main() -> int:
+def main() -> None:
 
     config = configparser.ConfigParser()
     config.read('config.ini')
 
-    buffNames = []
+    buff_names = []
     for key in config['Buffs']:
-        if(config['Buffs'].getboolean(key)):
-            buffNames.append(key)
-    debuffNames = []
+        if config['Buffs'].getboolean(key):
+            buff_names.append(key)
+    debuff_names = []
     for key in config['Debuffs']:
-        if(config['Debuffs'].getboolean(key)):
-            debuffNames.append(key)
+        if config['Debuffs'].getboolean(key):
+            debuff_names.append(key)
 
-    HUD_size = config['TL'].getint('HUD_size')
+    hud_size = config['TL'].getint('HUD_size')
     screenshot_width = config['TL'].getint('width')
     screenshot_height = config['TL'].getint('height')
 
@@ -37,16 +37,16 @@ def main() -> int:
 
     buffs = Screenshot(
         bbox=(screenshot_buff_left_x, screenshot_buff_top_y, screenshot_buff_left_x+screenshot_width, screenshot_buff_top_y+screenshot_height),
-        HUD_size=HUD_size,
+        hud_size=hud_size,
         threshold=threshold,
-        icons_name=buffNames,
+        icons_name=buff_names,
         )
 
     debuffs = Screenshot(
         bbox=(screenshot_debuff_left_x, screenshot_debuff_top_y, screenshot_debuff_left_x+screenshot_width, screenshot_debuff_top_y+screenshot_height),
-        HUD_size=HUD_size,
+        hud_size=hud_size,
         threshold=threshold,
-        icons_name=debuffNames,
+        icons_name=debuff_names,
         )
 
     overlay = Overlay(
@@ -54,8 +54,8 @@ def main() -> int:
         refresh_rate=refresh_rate,
         get_buffs_status=buffs.refresh,
         get_debuffs_status=debuffs.refresh,
-        buffsNames=buffNames,
-        debuffsNames=debuffNames,
+        buffs_names=buff_names,
+        debuffs_names=debuff_names,
         geometry=(overlay_left_x, overlay_top_y),
         icon_size=icon_size,
         horizontal=horizontal

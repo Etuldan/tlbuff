@@ -13,8 +13,8 @@ class Overlay:
                  refresh_rate: int,
                  get_buffs_status: Callable[[], tuple[int, bool]],
                  get_debuffs_status: Callable[[], tuple[int, bool]],
-                 buffsNames: list[str],
-                 debuffsNames: list[str],
+                 buffs_names: list[str],
+                 debuffs_names: list[str],
                  geometry: tuple[int, int],
                  icon_size: int,
                  horizontal: bool):
@@ -32,12 +32,12 @@ class Overlay:
         box = lambda x, y : ((x if horizontal else y), (x if not horizontal else y))
 
         i = 0
-        for buff in buffsNames:
+        for buff in buffs_names:
             self.create_icon(icon_name=buff, icon_size=icon_size, box=box(i, 0))
             i = i + 1
 
         i = 0
-        for debuff in debuffsNames:
+        for debuff in debuffs_names:
             self.create_icon(icon_name=debuff, icon_size=icon_size, box=box(i, 1))
             i = i + 1
 
